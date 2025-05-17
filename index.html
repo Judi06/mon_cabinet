@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexPrime - Cabinet d'Avocats International</title>
+    <script>
+        // Détection de la langue et redirection
+        (function() {
+            // Langues supportées avec correspondance des fichiers
+            const supportedLangs = {
+                'fr': 'index-fr.html',    // Français
+                'en': 'index-en.html',    // Anglais (par défaut)
+                'es': 'index-es.html',    // Espagnol
+                'de': 'index-de.html',    // Allemand
+                'it': 'index-it.html',    // Italien
+                'pt': 'index-pt.html',    // Portugais
+                'hr': 'index-hr.html'     // Croate
+            };
+
+            // 1. Vérifier d'abord le paramètre d'URL 'lang'
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            
+            if (urlLang && supportedLangs[urlLang.toLowerCase()]) {
+                window.location.replace(supportedLangs[urlLang.toLowerCase()]);
+                return;
+            }
+
+            // 2. Vérifier le localStorage pour une préférence sauvegardée
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang && supportedLangs[savedLang]) {
+                window.location.replace(supportedLangs[savedLang]);
+                return;
+            }
+
+            // 3. Détection automatique de la langue du navigateur
+            const browserLang = navigator.language || navigator.userLanguage;
+            const primaryLang = browserLang.split('-')[0].toLowerCase();
+
+            // 4. Redirection vers la langue correspondante ou anglais par défaut
+            if (supportedLangs[primaryLang]) {
+                window.location.replace(supportedLangs[primaryLang]);
+            } else {
+                // Anglais par défaut
+                window.location.replace('index-en.html');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Contenu minimal en cas de non-redirection -->
+    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h1>Redirection en cours...</h1>
+        <p>Si vous n'êtes pas redirigé automatiquement, veuillez choisir votre langue :</p>
+        <div style="margin-top: 20px;">
+            <a href="index-en.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">English</a>
+            <a href="index-fr.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Français</a>
+            <a href="index-es.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Español</a>
+            <a href="index-de.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Deutsch</a>
+            <a href="index-it.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Italiano</a>
+            <a href="index-pt.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Português</a>
+            <a href="index-hr.html" style="margin: 0 10px; text-decoration: none; color: #0a1a3a; font-weight: bold;">Hrvatski</a>
+        </div>
+    </div>
+</body>
+</html>
