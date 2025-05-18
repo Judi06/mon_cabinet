@@ -8,7 +8,7 @@
     <!-- Préchargement des ressources critiques -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.css" as="style">
     
     <!-- Favicon et métadonnées avancées -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -20,7 +20,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.css">
     <style>
         :root {
             --primary: #0a1a3a;
@@ -30,9 +30,9 @@
             --dark: #121212;
             --gray: #6d6d6d;
             --transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
-            --section-padding: clamp(3rem, 5vw, 8rem);
+            --section-padding: clamp(5rem, 8vw, 10rem);
         }
-
+        
         *,
         *::before,
         *::after {
@@ -40,46 +40,46 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         html {
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
-
+        
         body {
             font-family: 'Montserrat', sans-serif;
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.7;
             background-color: #fff;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
-
+        
         h1, h2, h3, h4, h5, h6 {
             font-family: 'EB Garamond', serif;
             font-weight: 600;
             line-height: 1.2;
             letter-spacing: -0.5px;
         }
-
+        
         a {
             text-decoration: none;
             color: inherit;
         }
-
+        
         img {
             max-width: 100%;
             height: auto;
             display: block;
         }
-
+        
         .container {
             width: 100%;
             max-width: 1440px;
             margin: 0 auto;
             padding: 0 2rem;
         }
-
+        
         /* Loader */
         .loader {
             position: fixed;
@@ -94,53 +94,88 @@
             z-index: 9999;
             transition: opacity 0.8s, visibility 0.8s;
         }
-
+        
         .loader.fade-out {
             opacity: 0;
             visibility: hidden;
         }
-
-        .scroll-loader {
-            width: 150px;
-            height: 150px;
+        
+        .scales-animation {
             position: relative;
+            width: 100px;
+            height: 100px;
         }
-
-        .scroll-loader::before {
+        
+        .scale-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 5px;
+        }
+        
+        .scale-pillar {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 60px;
+            background: var(--secondary);
+            border-radius: 5px;
+        }
+        
+        .scale-beam {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 80px;
+            height: 8px;
+            background: var(--secondary);
+            transform: translateX(-50%) rotate(0deg);
+            transform-origin: center;
+            border-radius: 5px;
+            animation: balance 2s ease-in-out infinite;
+        }
+        
+        .scale-pan {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            background: var(--secondary);
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .scale-pan.left {
+            top: 38px;
+            left: 10px;
+        }
+        
+        .scale-pan.right {
+            top: 38px;
+            right: 10px;
+        }
+        
+        .scale-pan::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23c5a059" d="M50 10L20 50l30 40 30-40z"/></svg>') no-repeat center center;
-            background-size: contain;
-            animation: scrollUnfold 2s ease-in-out infinite;
-        }
-
-        .balance-scale {
-            position: absolute;
-            top: 50%;
+            top: -10px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            color: var(--secondary);
-            animation: balancePulse 2s ease-in-out infinite;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 10px;
+            background: var(--secondary);
         }
-
-        @keyframes scrollUnfold {
-            0% { transform: scale(0.8) rotate(0deg); opacity: 0; }
-            50% { transform: scale(1) rotate(180deg); opacity: 1; }
-            100% { transform: scale(0.8) rotate(360deg); opacity: 0; }
+        
+        @keyframes balance {
+            0%, 100% { transform: translateX(-50%) rotate(-10deg); }
+            50% { transform: translateX(-50%) rotate(10deg); }
         }
-
-        @keyframes balancePulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
-        }
-
-        /* Header */
+        
+        /* Header Premium */
         header {
             position: fixed;
             top: 0;
@@ -152,58 +187,81 @@
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
         }
-
+        
         header.scrolled {
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
         }
-
+        
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 90px;
             transition: height 0.4s;
         }
-
+        
         header.scrolled .header-container {
             height: 70px;
         }
-
+        
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
+        
         .logo-icon {
             color: var(--secondary);
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
-
-        /* Navigation */
+        
+        .logo-text {
+            position: relative;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        
+        .logo:hover .logo-text::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Navigation Premium */
         .nav-container {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
+        
         .main-nav ul {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
+        
         .main-nav a {
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             position: relative;
             padding: 0.5rem 0;
+            color: var(--primary);
             transition: color 0.3s;
         }
-
+        
         .main-nav a::after {
             content: '';
             position: absolute;
@@ -213,13 +271,130 @@
             height: 2px;
             background: var(--secondary);
             transform: scaleX(0);
-            transition: transform 0.3s;
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
         }
-
+        
         .main-nav a:hover::after {
             transform: scaleX(1);
+            transform-origin: left;
         }
-
+        
+        .main-nav a.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* Language Selector Premium */
+        .language-selector {
+            position: relative;
+            margin-left: 1rem;
+        }
+        
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .language-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .language-btn i {
+            transition: transform 0.3s;
+        }
+        
+        .language-selector.active .language-btn i {
+            transform: rotate(180deg);
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 180px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: 100;
+        }
+        
+        .language-selector.active .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .language-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            transition: background 0.3s;
+        }
+        
+        .language-dropdown a:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
+        .language-dropdown a.active {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .language-dropdown a::before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 15px;
+            background-size: cover;
+            border-radius: 2px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .language-dropdown a[href*="fr"]::before {
+            background-image: url('https://flagcdn.com/w20/fr.png');
+        }
+        
+        .language-dropdown a[href*="en"]::before {
+            background-image: url('https://flagcdn.com/w20/gb.png');
+        }
+        
+        .language-dropdown a[href*="es"]::before {
+            background-image: url('https://flagcdn.com/w20/es.png');
+        }
+        
+        .language-dropdown a[href*="de"]::before {
+            background-image: url('https://flagcdn.com/w20/de.png');
+        }
+        
+        .language-dropdown a[href*="it"]::before {
+            background-image: url('https://flagcdn.com/w20/it.png');
+        }
+        
+        .language-dropdown a[href*="pt"]::before {
+            background-image: url('https://flagcdn.com/w20/pt.png');
+        }
+        
+        .language-dropdown a[href*="hr"]::before {
+            background-image: url('https://flagcdn.com/w20/hr.png');
+        }
+        
         /* Mobile Navigation */
         .mobile-nav-toggle {
             display: none;
@@ -229,24 +404,26 @@
             padding: 0.5rem;
             z-index: 1001;
         }
-
+        
         .mobile-nav-toggle i {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--primary);
+            transition: transform 0.3s;
         }
-
-        /* Hero Section */
+        
+        /* Hero Section Premium */
         .hero {
             position: relative;
             height: 100vh;
-            min-height: 600px;
+            min-height: 800px;
             display: flex;
             align-items: center;
-            padding-top: 80px;
+            overflow: hidden;
             background: linear-gradient(135deg, rgba(10, 26, 58, 0.9) 0%, rgba(10, 26, 58, 0.7) 100%);
             color: white;
+            padding-top: 90px;
         }
-
+        
         .hero::before {
             content: '';
             position: absolute;
@@ -258,164 +435,872 @@
             z-index: -1;
             opacity: 0.5;
         }
-
+        
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
-            padding: 0 1.5rem;
             position: relative;
             z-index: 1;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            animation-delay: 0.3s;
         }
-
+        
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
             opacity: 0.9;
         }
-
+        
         .hero-buttons {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
-
+        
         /* Button Styles */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 0.8rem 1.5rem;
+            padding: 0.9rem 2rem;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-radius: 50px;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-
+        
         .btn-primary {
             background: var(--secondary);
             color: white;
             border: 2px solid var(--secondary);
         }
-
+        
         .btn-primary:hover {
             background: transparent;
             color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.3);
         }
-
+        
         .btn-outline {
             background: transparent;
             color: white;
             border: 2px solid white;
         }
-
+        
         .btn-outline:hover {
             background: white;
             color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
         }
-
+        
         /* Section Styles */
         .section {
             padding: var(--section-padding) 0;
+            position: relative;
         }
-
+        
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            overflow: hidden;
         }
-
+        
         .section-title h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 1rem;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
         }
-
+        
         .section-title h2::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
+            width: 80px;
             height: 3px;
             background: var(--secondary);
         }
-
+        
         .section-title p {
             color: var(--gray);
             max-width: 700px;
             margin: 0 auto;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
-
-        /* About Section */
+        
+        /* About Section Premium */
         .about {
             background: var(--light);
         }
-
+        
         .about-content {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
             align-items: center;
         }
-
+        
         .about-carousel {
             position: relative;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            height: 300px;
-            max-width: 600px;
-            margin: 0 auto;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
         }
-
-        .about-carousel .swiper-slide {
+        
+        .about-carousel.in-view {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .carousel-track {
+            display: flex;
+            height: 400px;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
             position: relative;
-            height: 100%;
         }
-
-        .about-carousel .swiper-slide img {
+        
+        .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .about-text h3 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            margin-bottom: 1rem;
+        
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 26, 58, 0.1) 0%, rgba(10, 26, 58, 0.3) 100%);
+            z-index: 1;
         }
-
+        
+        .about-text {
+            transform: translateX(50px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
+        }
+        
+        .about-text.in-view {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .about-text h3 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
         .about-text p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             color: var(--gray);
         }
-
+        
         .about-features {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
         }
-
+        
         .feature-item {
             display: flex;
-            gap: 1rem;
-            align-items: flex-start;
+            gap: 1.5rem;
         }
-
+        
         .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        
+        .feature-item:hover .feature-icon {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .feature-text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .feature-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        /* Services Section Premium */
+        .services {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            opacity: 0.03;
+            z-index: -1;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        
+        .service-card.in-view {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 26, 58, 0.1) 0%, rgba(10, 26, 58, 0.5) 100%);
+        }
+        
+        .service-content {
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .service-number {
+            position: absolute;
+            top: -25px;
+            right: 25px;
             width: 50px;
             height: 50px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+        }
+        
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .service-content p {
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+        
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .service-link i {
+            transition: transform 0.3s;
+        }
+        
+        .service-link:hover {
+            color: var(--primary);
+        }
+        
+        .service-link:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Team Section Premium */
+        .team {
+            background: var(--light);
+        }
+        
+        .team-slider {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-track {
+            display: flex;
+            gap: 2rem;
+            scroll-snap-type: x mandatory;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 2rem;
+        }
+        
+        .team-track::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .team-track::-webkit-scrollbar-track {
+            background: rgba(10, 26, 58, 0.1);
+            border-radius: 10px;
+        }
+        
+        .team-track::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .team-card {
+            min-width: 280px;
+            scroll-snap-align: start;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        
+        .team-card.in-view {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-img {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .team-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .team-card:hover .team-img img {
+            transform: scale(1.1);
+        }
+        
+        .team-info {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .team-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .team-info p {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Testimonials Section Premium */
+        .testimonials {
+            background: linear-gradient(135deg, rgba(10, 26, 58, 0.95) 0%, rgba(10, 26, 58, 0.85) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80') no-repeat center center/cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+        
+        .testimonials .section-title h2,
+        .testimonials .section-title p {
+            color: white;
+        }
+        
+        .testimonials .section-title h2::after {
+            background: var(--secondary);
+        }
+        
+        .testimonial-slider {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 2rem;
+        }
+        
+        .testimonial-track::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .testimonial-track::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .testimonial-track::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+        
+        .testimonial-card {
+            min-width: 350px;
+            scroll-snap-align: start;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-text::before {
+            top: -20px;
+            left: -15px;
+        }
+        
+        .testimonial-text::after {
+            bottom: -50px;
+            right: -15px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .author-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .author-rating {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+        
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .testimonial-dot.active {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        
+        .add-review-btn {
+            display: inline-block;
+            margin-top: 3rem;
+            padding: 0.9rem 2rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .add-review-btn:hover {
+            background: white;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Review Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .review-modal {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2.5rem;
+            position: relative;
+            transform: translateY(50px);
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        
+        .modal-overlay.active .review-modal {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .review-form h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .rating-star {
+            font-size: 1.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .rating-star.active {
+            color: var(--secondary);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .submit-btn:hover {
             background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .notification.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 5rem 0;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item:last-child::after {
+            display: none;
+        }
+        
+        .stat-number {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .stat-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--light);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+        }
+        
+        .contact-info {
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        
+        .contact-info.in-view {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .contact-info p {
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+        
+        .contact-details {
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -424,623 +1309,331 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-
-        .feature-text h4 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .feature-text p {
-            font-size: 0.85rem;
-            margin-bottom: 0;
-        }
-
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-
-        .service-img {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .service-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 5s ease;
-        }
-
-        .service-card:hover .service-img img {
-            transform: scale(1.05);
-        }
-
-        .service-content {
-            padding: 1.5rem;
-            position: relative;
-        }
-
-        .service-number {
-            position: absolute;
-            top: -20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .service-content h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .service-content p {
-            margin-bottom: 1rem;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .service-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* Team Section */
-        .team {
-            background: var(--light);
-        }
-
-        .team-slider {
-            position: relative;
-            padding: 1rem 0;
-        }
-
-        .team-slider .swiper-slide {
-            height: auto;
-            padding: 0.5rem;
-        }
-
-        .team-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            height: 100%;
-            transition: var(--transition);
-            display: block;
-        }
-
-        .team-img {
-            height: 280px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .team-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 5s ease;
-        }
-
-        .team-card:hover .team-img img {
-            transform: scale(1.05);
-        }
-
-        .team-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .team-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .team-info p {
-            color: var(--secondary);
-            font-size: 0.9rem;
-        }
-
-        .swiper-pagination-bullet {
-            width: 10px;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            opacity: 1;
-        }
-
-        .swiper-pagination-bullet-active {
-            background: var(--secondary);
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: linear-gradient(135deg, rgba(10, 26, 58, 0.95) 0%, rgba(10, 26, 58, 0.85) 100%);
-            color: white;
-        }
-
-        .testimonials .section-title h2,
-        .testimonials .section-title p {
-            color: white;
-        }
-
-        .testimonial-slider {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonial-track {
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 1.5rem;
-        }
-
-        .testimonial-card {
-            min-width: calc(100% - 3rem);
-            scroll-snap-align: start;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            border-radius: 8px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .rating {
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .testimonial-author h4 {
+        
+        .contact-text h4 {
             font-size: 1.1rem;
-        }
-
-        .leave-review-btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.8rem 1.5rem;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .leave-review-btn:hover {
-            background: white;
+            margin-bottom: 0.5rem;
             color: var(--primary);
         }
-
-        /* Stats Section */
-        .stats {
-            padding: 3rem 0;
-            background: var(--primary);
-            color: white;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            padding: 1.5rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 0.3rem;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .stat-text {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: var(--light);
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        .contact-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-info p {
-            margin-bottom: 1.5rem;
-            color: var(--gray);
-        }
-
-        .contact-details {
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .contact-text h4 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .contact-text p,
+        
         .contact-text a {
-            font-size: 0.9rem;
+            transition: color 0.3s;
         }
-
+        
+        .contact-text a:hover {
+            color: var(--secondary);
+        }
+        
         .contact-btn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 2rem auto 0;
-            padding: 0.9rem;
+            display: inline-block;
+            padding: 0.9rem 2rem;
             background: var(--secondary);
             color: white;
-            border-radius: 50px;
+            border-radius: 5px;
             font-weight: 600;
-            border: none;
-            cursor: pointer;
             transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 0.95rem;
         }
-
+        
         .contact-btn:hover {
             background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
         }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            padding: 1rem;
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
+        
+        /* Contact Modal */
+        .contact-modal {
             background: white;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 1.5rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            padding: 2.5rem;
             position: relative;
+            transform: translateY(50px);
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
         }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
+        
+        .modal-overlay.active .contact-modal {
+            transform: translateY(0);
         }
-
-        .modal h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 0.9rem;
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.9rem;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .submit-btn:hover {
-            background: var(--primary);
-        }
-
-        .rating-input {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .rating-input i {
-            font-size: 1.5rem;
-            color: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .rating-input i.active {
-            color: var(--secondary);
-        }
-
-        /* Footer */
+        
+        /* Footer Premium */
         footer {
             background: var(--primary);
             color: white;
-            padding: 4rem 0 2rem;
+            padding: 6rem 0 3rem;
             position: relative;
         }
-
+        
         .footer-wave {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px;
+            height: 100px;
             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23f5f5f5" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23f5f5f5" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23f5f5f5"/></svg>') no-repeat;
             background-size: cover;
-            transform: translateY(-79px);
+            transform: translateY(-99px);
         }
-
+        
         .footer-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 1;
         }
-
-        .footer-about h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+        
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
         }
-
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
         .footer-about p {
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
             opacity: 0.8;
-            margin-bottom: 1rem;
         }
-
+        
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-            opacity: 0.8;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
-
+        
         .footer-bottom a {
-            margin: 0 0.5rem;
             transition: color 0.3s;
         }
-
+        
         .footer-bottom a:hover {
             color: var(--secondary);
         }
-
+        
         /* Back to Top Button */
         .back-to-top {
             position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            width: 45px;
-            height: 45px;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
             background: var(--secondary);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
             z-index: 999;
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.3);
         }
-
+        
         .back-to-top.visible {
             opacity: 1;
             visibility: visible;
         }
-
+        
         .back-to-top:hover {
             background: var(--primary);
+            transform: translateY(-5px);
         }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            left: 1rem;
-            background: var(--primary);
-            color: white;
-            padding: 0.8rem 1rem;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            z-index: 10001;
-            transform: translateY(-100px);
-            transition: transform 0.3s ease;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        .notification.active {
-            transform: translateY(0);
-        }
-
-        .notification i {
-            font-size: 1.2rem;
-            color: var(--secondary);
-        }
-
-        .notification span {
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Adjustments */
-        @media (min-width: 576px) {
-            .testimonial-card {
-                min-width: calc(50% - 2rem);
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 1.5rem;
             }
             
-            .footer-container {
-                grid-template-columns: repeat(2, 1fr);
+            .section {
+                padding: 6rem 0;
             }
         }
-
-        @media (min-width: 768px) {
-            .header-container {
-                height: 90px;
+        
+        @media (max-width: 992px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .main-nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 400px;
+                height: 100vh;
+                background: white;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+                padding: 6rem 2rem 2rem;
+                transition: right 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+                z-index: 999;
+                overflow-y: auto;
+            }
+            
+            .main-nav.active {
+                right: 0;
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .main-nav a {
+                font-size: 1.1rem;
+                padding: 0.5rem 0;
+            }
+            
+            .language-selector {
+                margin: 2rem 0 0;
+            }
+            
+            .language-dropdown {
+                top: 100%;
+                left: 0;
+                right: auto;
             }
             
             .hero {
                 min-height: 700px;
-                padding-top: 90px;
             }
             
-            .hero h1 {
-                font-size: clamp(2.2rem, 5vw, 3.5rem);
+            .hero-content {
+                padding: 0 1.5rem;
             }
             
             .about-content {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                grid-template-columns: 1fr;
             }
             
             .about-carousel {
-                height: 400px;
+                order: -1;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                height: 80px;
+            }
+            
+            .hero {
+                min-height: 600px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .section-title p {
+                font-size: 1rem;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
             }
             
             .testimonial-card {
-                min-width: calc(33.333% - 2rem);
+                min-width: 280px;
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-item:nth-child(2)::after {
+                display: none;
             }
             
             .contact-container {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
-            .footer-container {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: 1fr;
             }
         }
-
-        @media (min-width: 992px) {
-            .testimonial-card {
-                min-width: calc(25% - 2rem);
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1rem;
             }
             
-            .team-slider .swiper-slide {
-                padding: 1rem;
+            .logo {
+                font-size: 1.5rem;
             }
             
-            .modal-content {
-                padding: 2rem;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .services-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            .logo-icon {
+                font-size: 1.5rem;
             }
             
-            .team-img {
-                height: 350px;
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .service-card,
+            .team-card {
+                min-width: 100%;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-item::after {
+                display: none;
+            }
+            
+            .review-modal,
+            .contact-modal {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -1048,8 +1641,12 @@
 <body>
     <!-- Loader -->
     <div class="loader">
-        <div class="scroll-loader">
-            <i class="fas fa-balance-scale balance-scale"></i>
+        <div class="scales-animation">
+            <div class="scale-base"></div>
+            <div class="scale-pillar"></div>
+            <div class="scale-beam"></div>
+            <div class="scale-pan left"></div>
+            <div class="scale-pan right"></div>
         </div>
     </div>
 
@@ -1122,19 +1719,19 @@
             </div>
             
             <div class="about-content">
-                <div class="about-carousel swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
+                <div class="about-carousel">
+                    <div class="carousel-track">
+                        <div class="carousel-slide">
                             <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Notre cabinet" loading="lazy">
                         </div>
-                        <div class="swiper-slide">
+                        <div class="carousel-slide">
                             <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Salle de réunion" loading="lazy">
                         </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Bibliothèque juridique" loading="lazy">
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Bibliothèque juridique" loading="lazy">
                         </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1589391886645-d51941baf7fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Équipe d'avocats" loading="lazy">
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2088&q=80" alt="Équipe d'avocats" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1208,7 +1805,7 @@
                         <h3>Droit des Affaires Transnational</h3>
                         <p>Conseil stratégique aux entreprises, fusions-acquisitions transfrontalières, droit de la concurrence international, compliance et gouvernance d'entreprise.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1222,7 +1819,7 @@
                         <h3>Droit Immobilier & Urbanisme</h3>
                         <p>Transactions complexes, montages financiers, contentieux fonciers, droit de l'urbanisme et de la construction, bail commercial international.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1236,7 +1833,7 @@
                         <h3>Droit de la Famille International</h3>
                         <p>Divorces transfrontaliers, protection des actifs familiaux, conventions matrimoniales complexes, droit successoral international.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1248,9 +1845,9 @@
                     <div class="service-content">
                         <div class="service-number">04</div>
                         <h3>Droit Successoral & Patrimonial</h3>
-                        <p>Successions internationales, donations stratégiques, gestion des héritages complexes, trusts et fondations, planification successorale transfrontalière.</p>
+                        <p>Successions internationales, donations transfrontalières, gestion des héritages complexes, trusts et fondations, planification successorale.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1264,7 +1861,7 @@
                         <h3>Droit Social International</h3>
                         <p>Restructurations transnationales, contentieux prud'homaux complexes, politiques de rémunération, protection des dirigeants et compliance sociale.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1278,7 +1875,7 @@
                         <h3>Notariat & Gestion de Patrimoine</h3>
                         <p>Ingénierie patrimoniale internationale, trusts et fondations, successions transfrontalières, audit et sécurisation des actifs.</p>
                         <a href="#contact" class="service-link">
-                            Contactez-nous <i class="fas fa-arrow-right"></i>
+                            En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -1318,69 +1915,58 @@
                 <p>Une équipe d'experts reconnus pour leur excellence juridique et leur engagement envers vos intérêts.</p>
             </div>
             
-            <div class="team-slider swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="avocat-dubois.html" class="team-card">
-                            <div class="team-img">
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Dubois" loading="lazy">
-                            </div>
-                            <div class="team-info">
-                                <h3>Maître Élisabeth Dubois</h3>
-                                <p>Avocate Associée - Droit des Affaires</p>
-                            </div>
-                        </a>
-                    </div>
+            <div class="team-slider">
+                <div class="team-track">
+                    <a href="avocat-dubois.html" class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Dubois" loading="lazy">
+                        </div>
+                        <div class="team-info">
+                            <h3>Maître Élisabeth Dubois</h3>
+                            <p>Avocate Associée - Droit des Affaires</p>
+                        </div>
+                    </a>
                     
-                    <div class="swiper-slide">
-                        <a href="avocat-laurent.html" class="team-card">
-                            <div class="team-img">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Laurent" loading="lazy">
-                            </div>
-                            <div class="team-info">
-                                <h3>Maître Jean-Philippe Laurent</h3>
-                                <p>Avocat Associé - Droit Pénal</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="avocat-laurent.html" class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Laurent" loading="lazy">
+                        </div>
+                        <div class="team-info">
+                            <h3>Maître Jean-Philippe Laurent</h3>
+                            <p>Avocat Associé - Droit Pénal</p>
+                        </div>
+                    </a>
                     
-                    <div class="swiper-slide">
-                        <a href="avocat-leroy.html" class="team-card">
-                            <div class="team-img">
-                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Leroy" loading="lazy">
-                            </div>
-                            <div class="team-info">
-                                <h3>Maître Thomas Leroy</h3>
-                                <p>Notaire Associé - Patrimoine</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="notaire-leroy.html" class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Leroy" loading="lazy">
+                        </div>
+                        <div class="team-info">
+                            <h3>Maître Thomas Leroy</h3>
+                            <p>Notaire Associé - Patrimoine</p>
+                        </div>
+                    </a>
                     
-                    <div class="swiper-slide">
-                        <a href="avocat-rousseau.html" class="team-card">
-                            <div class="team-img">
-                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Maître Rousseau" loading="lazy">
-                            </div>
-                            <div class="team-info">
-                                <h3>Maître Sophie Rousseau</h3>
-                                <p>Avocate Associée - Droit International</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="avocat-rousseau.html" class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Maître Rousseau" loading="lazy">
+                        </div>
+                        <div class="team-info">
+                            <h3>Maître Sophie Rousseau</h3>
+                            <p>Avocate Associée - Droit International</p>
+                        </div>
+                    </a>
                     
-                    <div class="swiper-slide">
-                        <a href="avocat-martin.html" class="team-card">
-                            <div class="team-img">
-                                <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Martin" loading="lazy">
-                            </div>
-                            <div class="team-info">
-                                <h3>Maître Alexandre Martin</h3>
-                                <p>Avocat Associé - Droit Fiscal</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="avocat-martin.html" class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1067&q=80" alt="Maître Martin" loading="lazy">
+                        </div>
+                        <div class="team-info">
+                            <h3>Maître Antoine Martin</h3>
+                            <p>Avocat Associé - Droit Fiscal</p>
+                        </div>
+                    </a>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
@@ -1395,185 +1981,93 @@
             
             <div class="testimonial-slider">
                 <div class="testimonial-track">
-                    <div class="testimonial-card">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
+                    <div class="testimonial-card" data-lang="fr">
                         <div class="testimonial-text">
-                            <p>Maître Dubois a géré notre acquisition avec une maîtrise exceptionnelle. Expertise et professionnalisme remarquables.</p>
+                            <p>Maître Dubois a géré notre acquisition avec une maîtrise exceptionnelle. Une expertise rare et précieuse.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Pierre Lambert</h4>
-                            </div>
+                            <div class="author-name">Pierre Lambert</div>
+                            <div class="author-rating">★★★★★</div>
                         </div>
                     </div>
                     
-                    <div class="testimonial-card">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
+                    <div class="testimonial-card" data-lang="fr">
                         <div class="testimonial-text">
-                            <p>Le cabinet nous a accompagnés avec brio dans un contentieux fiscal complexe. Résultat au-delà de nos attentes.</p>
+                            <p>Approche stratégique brillante dans un contentieux complexe. Résultats au-delà de nos attentes.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Élodie Marchand</h4>
-                            </div>
+                            <div class="author-name">Élodie Marchand</div>
+                            <div class="author-rating">★★★★★</div>
                         </div>
                     </div>
                     
-                    <div class="testimonial-card">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
+                    <div class="testimonial-card" data-lang="fr">
                         <div class="testimonial-text">
-                            <p>Maître Laurent a défendu nos intérêts avec une stratégie brillante. Engagement sans faille.</p>
+                            <p>Conseils patrimoniaux d'une grande finesse. Notre famille est sécurisée pour les générations futures.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>François Delacroix</h4>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>L'équipe notariale a structuré notre patrimoine avec ingéniosité. Sécurité et optimisation parfaites.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Sophie Dumont</h4>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- English testimonials -->
-                    <div class="testimonial-card" data-lang="en">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="testimonial-text">
-                            <p>Exceptional service from Maître Dubois. Strategic thinking and flawless execution.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>John Smith</h4>
-                            </div>
+                            <div class="author-name">Sophie Dumont</div>
+                            <div class="author-rating">★★★★☆</div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="en">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
                         <div class="testimonial-text">
-                            <p>Highly professional team. Solved our international tax dispute efficiently.</p>
+                            <p>Exceptional cross-border expertise. LexPrime delivered results when others failed.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Sarah Johnson</h4>
-                            </div>
+                            <div class="author-name">James Wilson</div>
+                            <div class="author-rating">★★★★★</div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="en">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
                         <div class="testimonial-text">
-                            <p>Brilliant defense strategy by Maître Laurent. Highly recommended.</p>
+                            <p>Strategic legal advice at its finest. They think several moves ahead like chess masters.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Michael Brown</h4>
-                            </div>
+                            <div class="author-name">Sarah Johnson</div>
+                            <div class="author-rating">★★★★★</div>
                         </div>
                     </div>
                     
-                    <!-- Spanish testimonials -->
-                    <div class="testimonial-card" data-lang="es">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
+                    <div class="testimonial-card" data-lang="en">
                         <div class="testimonial-text">
-                            <p>Servicio excepcional de Maître Dubois. Pensamiento estratégico y ejecución impecable.</p>
+                            <p>Complex inheritance handled with sensitivity and precision. Highly recommended.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Carlos Mendez</h4>
-                            </div>
+                            <div class="author-name">Robert Chen</div>
+                            <div class="author-rating">★★★★☆</div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="es">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
                         <div class="testimonial-text">
-                            <p>Equipo altamente profesional. Resolvió nuestra disputa fiscal internacional con eficiencia.</p>
+                            <p>Asesoramiento jurídico impecable en una fusión transfronteriza. Excelentes resultados.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Ana Rodriguez</h4>
-                            </div>
+                            <div class="author-name">Carlos Mendoza</div>
+                            <div class="author-rating">★★★★★</div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="es">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
                         <div class="testimonial-text">
-                            <p>Estrategia de defensa brillante de Maître Laurent. Muy recomendado.</p>
+                            <p>Estrategia legal brillante para proteger nuestros activos internacionales. Muy profesional.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-info">
-                                <h4>Luis Garcia</h4>
-                            </div>
+                            <div class="author-name">Ana Rodríguez</div>
+                            <div class="author-rating">★★★★★</div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card" data-lang="es">
+                        <div class="testimonial-text">
+                            <p>Resolución eficiente de un conflicto sucesorio complejo. Gran conocimiento del derecho internacional.</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-name">Diego Fernández</div>
+                            <div class="author-rating">★★★★☆</div>
                         </div>
                     </div>
                 </div>
@@ -1582,22 +2076,24 @@
                     <div class="testimonial-dot active"></div>
                     <div class="testimonial-dot"></div>
                     <div class="testimonial-dot"></div>
-                    <div class="testimonial-dot"></div>
                 </div>
             </div>
             
-            <div style="text-align: center;">
-                <button class="leave-review-btn" id="leaveReviewBtn">Laissez un avis</button>
+            <div class="text-center">
+                <button class="add-review-btn" id="addReviewBtn">
+                    <i class="fas fa-pen"></i> Laissez un avis
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Review Modal -->
-    <div class="modal" id="reviewModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeReviewModal">&times;</button>
-            <h3>Donnez votre avis</h3>
-            <form id="reviewForm">
+    <div class="modal-overlay" id="reviewModal">
+        <div class="review-modal">
+            <span class="close-modal" id="closeReviewModal">&times;</span>
+            <form id="reviewForm" class="review-form">
+                <h3>Donnez votre avis</h3>
+                
                 <div class="form-group">
                     <label for="reviewName">Nom & Prénom</label>
                     <input type="text" id="reviewName" class="form-control" required>
@@ -1605,12 +2101,12 @@
                 
                 <div class="form-group">
                     <label>Note</label>
-                    <div class="rating-input">
-                        <i class="far fa-star" data-rating="1"></i>
-                        <i class="far fa-star" data-rating="2"></i>
-                        <i class="far fa-star" data-rating="3"></i>
-                        <i class="far fa-star" data-rating="4"></i>
-                        <i class="far fa-star" data-rating="5"></i>
+                    <div class="rating-stars">
+                        <i class="fas fa-star rating-star" data-rating="1"></i>
+                        <i class="fas fa-star rating-star" data-rating="2"></i>
+                        <i class="fas fa-star rating-star" data-rating="3"></i>
+                        <i class="fas fa-star rating-star" data-rating="4"></i>
+                        <i class="fas fa-star rating-star" data-rating="5"></i>
                     </div>
                     <input type="hidden" id="reviewRating" value="0" required>
                 </div>
@@ -1661,39 +2157,43 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <button class="contact-btn" id="contactBtn">Contactez Nous</button>
+                    
+                    <button class="contact-btn" id="contactBtn">
+                        <i class="fas fa-envelope"></i> Contactez-nous
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Modal -->
-    <div class="modal" id="contactModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeContactModal">&times;</button>
-            <h3>Contactez Notre Cabinet</h3>
-            <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div class="modal-overlay" id="contactModal">
+        <div class="contact-modal">
+            <span class="close-modal" id="closeContactModal">&times;</span>
+            <form id="contactForm" class="review-form" action="https://formsubmit.co/contact@lexprime.com" method="POST">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="#contact">
+                
+                <h3>Contactez notre équipe</h3>
+                
                 <div class="form-group">
-                    <label for="name">Nom Complet</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
+                    <label for="contactName">Nom Complet</label>
+                    <input type="text" id="contactName" name="name" class="form-control" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" name="email" class="form-control" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="subject">Sujet</label>
-                    <select id="subject" name="subject" class="form-control" required>
+                    <label for="contactSubject">Sujet</label>
+                    <select id="contactSubject" name="subject" class="form-control" required>
                         <option value="">Sélectionnez un sujet</option>
                         <option value="business">Droit des Affaires</option>
                         <option value="real-estate">Droit Immobilier</option>
                         <option value="family">Droit de la Famille</option>
-                        <option value="succession">Droit Successoral</option>
+                        <option value="inheritance">Droit Successoral</option>
                         <option value="labor">Droit du Travail</option>
                         <option value="notary">Notariat</option>
                         <option value="other">Autre</option>
@@ -1701,15 +2201,21 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" class="form-control" required></textarea>
+                    <label for="contactMessage">Message</label>
+                    <textarea id="contactMessage" name="message" class="form-control" required></textarea>
                 </div>
                 
                 <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Envoyer le Message
+                    <i class="fas fa-paper-plane"></i> Envoyer le message
                 </button>
             </form>
         </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Votre message a été envoyé avec succès</span>
     </div>
 
     <!-- Footer -->
@@ -1734,442 +2240,366 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText">Message envoyé avec succès</span>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.js"></script>
+    <script>
+        // Loader
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader');
+            loader.classList.add('fade-out');
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 800);
+        });
 
-    <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<script>
-    // Loader
-    window.addEventListener('load', function() {
-        const loader = document.querySelector('.loader');
-        loader.classList.add('fade-out');
+        // Mobile Navigation
+        const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+        const mainNav = document.getElementById('main-nav');
         
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 800);
-    });
+        mobileNavToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileNavToggle.innerHTML = mainNav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
 
-    // Mobile Navigation
-    const mobileNavToggle = document.getElementById('mobile-nav-toggle');
-    const mainNav = document.getElementById('main-nav');
-    
-    mobileNavToggle.addEventListener('click', () => {
-        mainNav.classList.toggle('active');
-        mobileNavToggle.innerHTML = mainNav.classList.contains('active') ? 
-            '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-    });
+        // Language Selector
+        const languageSelector = document.getElementById('language-selector');
+        
+        languageSelector.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageSelector.classList.toggle('active');
+        });
+        
+        document.addEventListener('click', () => {
+            languageSelector.classList.remove('active');
+        });
 
-    // Language Selector
-    const languageSelector = document.getElementById('language-selector');
-    
-    languageSelector.addEventListener('click', (e) => {
-        e.stopPropagation();
-        languageSelector.classList.toggle('active');
-    });
-    
-    document.addEventListener('click', () => {
-        languageSelector.classList.remove('active');
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 90,
-                    behavior: 'smooth'
-                });
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                // Close mobile menu if open
-                if (mainNav.classList.contains('active')) {
-                    mainNav.classList.remove('active');
-                    mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 90,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        mobileNavToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
                 }
+            });
+        });
+
+        // Sticky header on scroll
+        const header = document.getElementById('header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
         });
-    });
 
-    // Sticky header on scroll
-    const header = document.getElementById('header');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Back to Top Button
-    const backToTop = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-    
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                observer.unobserve(entry.target);
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
             }
         });
-    }, observerOptions);
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
 
-    document.querySelectorAll('.about-carousel, .about-text, .service-card, .team-card, .contact-info').forEach(el => {
-        observer.observe(el);
-    });
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1
+        };
 
-    // Initialize Swiper for About Carousel
-    const aboutCarousel = new Swiper('.about-carousel', {
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        loop: true,
-        effect: 'fade',
-        fadeEffect: {
-            crossFade: true
-        },
-    });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    // Initialize Swiper for Team Slider
-    const teamSlider = new Swiper('.team-slider', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        breakpoints: {
-            576: {
-                slidesPerView: 2,
+        document.querySelectorAll('.about-carousel, .about-text, .service-card, .team-card, .contact-info').forEach(el => {
+            observer.observe(el);
+        });
+
+        // About Carousel
+        let currentSlide = 0;
+        const aboutCarousel = document.querySelector('.carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            aboutCarousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        setInterval(nextSlide, 3000);
+
+        // Team Slider
+        new Glider(document.querySelector('.team-track'), {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            draggable: true,
+            arrows: {
+                prev: '.glider-prev',
+                next: '.glider-next'
             },
-            768: {
-                slidesPerView: 3,
-            },
-            992: {
-                slidesPerView: 4,
-            }
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 4
+                    }
+                }
+            ]
+        });
+
+        // Testimonial Slider
+        const testimonialTrack = document.querySelector('.testimonial-track');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        let testimonialIndex = 0;
+        const testimonialsPerSlide = 3;
+
+        function goToTestimonial(index) {
+            testimonialIndex = index;
+            const cardWidth = document.querySelector('.testimonial-card').offsetWidth;
+            const gap = parseInt(window.getComputedStyle(testimonialTrack).gap);
+            const scrollAmount = (cardWidth + gap) * index * testimonialsPerSlide;
+            
+            testimonialTrack.scrollTo({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+            
+            // Update dots
+            testimonialDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
         }
-    });
 
-    // Mobile adjustments
-    function adjustMobileLayout() {
-        const isMobile = window.innerWidth < 768;
-        
-        // Adjust service card image heights
-        document.querySelectorAll('.service-img').forEach(img => {
-            img.style.height = isMobile ? '180px' : '220px';
-        });
-        
-        // Adjust team card image heights
-        document.querySelectorAll('.team-img').forEach(img => {
-            img.style.height = isMobile ? '250px' : '350px';
-        });
-        
-        // Adjust testimonial card widths
-        document.querySelectorAll('.testimonial-card').forEach(card => {
-            card.style.minWidth = isMobile ? 'calc(100vw - 2rem)' : '350px';
-        });
-        
-        // Reposition contact button for mobile
-        const contactBtn = document.getElementById('contactBtn');
-        const contactSection = document.getElementById('contact');
-        const contactContainer = contactSection.querySelector('.contact-container');
-        
-        if (isMobile) {
-            // Create new container for button if it doesn't exist
-            if (!contactSection.querySelector('.mobile-btn-container')) {
-                const newContainer = document.createElement('div');
-                newContainer.className = 'mobile-btn-container';
-                newContainer.style.textAlign = 'center';
-                newContainer.style.marginTop = '2rem';
-                newContainer.appendChild(contactBtn);
-                contactContainer.appendChild(newContainer);
-            }
-        } else {
-            // Restore original position for desktop
-            const btnContainer = contactSection.querySelector('.mobile-btn-container');
-            if (btnContainer) {
-                contactContainer.insertBefore(contactBtn, btnContainer);
-                btnContainer.remove();
-            }
-        }
-    }
-
-    // Testimonial Slider
-    const track = document.querySelector('.testimonial-track');
-    const dots = document.querySelectorAll('.testimonial-dot');
-    let currentIndex = 0;
-    let testimonials = document.querySelectorAll('.testimonial-card');
-    let testimonialInterval;
-
-    function updateVisibleTestimonials() {
-        const isMobile = window.innerWidth < 768;
-        return isMobile ? 1 : (window.innerWidth < 992 ? 2 : 4);
-    }
-
-    function goToTestimonial(index) {
-        const visibleCount = updateVisibleTestimonials();
-        const cardWidth = track.querySelector('.testimonial-card').offsetWidth;
-        const gap = parseInt(window.getComputedStyle(track).gap) || 0;
-        
-        // Filter testimonials by current language
-        const currentLang = document.querySelector('.language-dropdown a.active').getAttribute('href').split('-')[1].replace('.html', '');
-        const langTestimonials = Array.from(testimonials).filter(t => !t.dataset.lang || t.dataset.lang === currentLang);
-        
-        if (index >= langTestimonials.length) index = 0;
-        if (index < 0) index = langTestimonials.length - 1;
-        
-        currentIndex = index;
-        const scrollAmount = (cardWidth + gap) * index;
-        
-        track.scrollTo({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
-        
-        // Update dots
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index % dots.length);
-        });
-    }
-
-    function initTestimonialSlider() {
-        clearInterval(testimonialInterval);
-        
-        dots.forEach((dot, index) => {
+        testimonialDots.forEach((dot, index) => {
             dot.addEventListener('click', () => goToTestimonial(index));
         });
 
+        // Filter testimonials by language
+        function filterTestimonials(lang) {
+            const testimonials = document.querySelectorAll('.testimonial-card');
+            testimonials.forEach(t => {
+                t.style.display = t.dataset.lang === lang ? 'block' : 'none';
+            });
+            goToTestimonial(0);
+        }
+
         // Auto-advance testimonials
-        testimonialInterval = setInterval(() => {
-            goToTestimonial(currentIndex + 1);
+        setInterval(() => {
+            testimonialIndex = (testimonialIndex + 1) % testimonialDots.length;
+            goToTestimonial(testimonialIndex);
         }, 5000);
 
-        // Pause on hover
-        track.addEventListener('mouseenter', () => {
-            clearInterval(testimonialInterval);
+        // Review Modal
+        const reviewModal = document.getElementById('reviewModal');
+        const addReviewBtn = document.getElementById('addReviewBtn');
+        const closeReviewModal = document.getElementById('closeReviewModal');
+        const reviewForm = document.getElementById('reviewForm');
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const reviewRating = document.getElementById('reviewRating');
+
+        addReviewBtn.addEventListener('click', () => {
+            reviewModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
 
-        track.addEventListener('mouseleave', () => {
-            testimonialInterval = setInterval(() => {
-                goToTestimonial(currentIndex + 1);
-            }, 5000);
-        });
-    }
-
-    // Language change handler
-    document.querySelectorAll('.language-dropdown a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelector('.language-dropdown a.active').classList.remove('active');
-            link.classList.add('active');
-            document.querySelector('.language-btn span').textContent = link.textContent;
-            
-            // Update testimonials for selected language
-            goToTestimonial(0);
-        });
-    });
-
-    // Animate stats counters
-    const statNumbers = document.querySelectorAll('.stat-number');
-    
-    function animateStats() {
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-count'));
-            const duration = 2000;
-            const start = 0;
-            const increment = target / (duration / 16);
-            let current = start;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                stat.textContent = Math.floor(current);
-                
-                if (current >= target) {
-                    stat.textContent = target;
-                    clearInterval(timer);
-                }
-            }, 16);
-        });
-    }
-    
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateStats();
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    statsObserver.observe(document.querySelector('.stats'));
-
-    // Review Modal
-    const reviewModal = document.getElementById('reviewModal');
-    const leaveReviewBtn = document.getElementById('leaveReviewBtn');
-    const closeReviewModal = document.getElementById('closeReviewModal');
-    
-    leaveReviewBtn.addEventListener('click', () => {
-        reviewModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-    
-    closeReviewModal.addEventListener('click', () => {
-        reviewModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    
-    // Rating stars
-    const stars = document.querySelectorAll('.rating-input i');
-    const ratingInput = document.getElementById('reviewRating');
-    
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            const rating = parseInt(star.getAttribute('data-rating'));
-            ratingInput.value = rating;
-            
-            stars.forEach((s, i) => {
-                if (i < rating) {
-                    s.classList.remove('far');
-                    s.classList.add('fas');
-                } else {
-                    s.classList.remove('fas');
-                    s.classList.add('far');
-                }
-            });
-        });
-    });
-    
-    // Review Form Submission
-    const reviewForm = document.getElementById('reviewForm');
-    
-    reviewForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Here you would typically send the form data to a server
-        showNotification('Merci pour votre avis ! Votre évaluation a été enregistrée.');
-        
-        reviewForm.reset();
-        stars.forEach(star => {
-            star.classList.remove('fas');
-            star.classList.add('far');
-        });
-        ratingInput.value = '0';
-        
-        reviewModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    
-    // Contact Modal
-    const contactModal = document.getElementById('contactModal');
-    const contactBtn = document.getElementById('contactBtn');
-    const closeContactModal = document.getElementById('closeContactModal');
-    
-    contactBtn.addEventListener('click', () => {
-        contactModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-    
-    closeContactModal.addEventListener('click', () => {
-        contactModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    
-    // Contact Form Submission
-    const contactForm = document.getElementById('contactForm');
-    const notification = document.getElementById('notification');
-    const notificationText = document.getElementById('notificationText');
-    
-    function showNotification(message) {
-        notificationText.textContent = message;
-        notification.classList.add('active');
-        
-        setTimeout(() => {
-            notification.classList.remove('active');
-        }, 3000);
-    }
-    
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(contactForm);
-        
-        try {
-            const response = await fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            
-            if (response.ok) {
-                showNotification('Message envoyé avec succès. Nous vous contacterons rapidement.');
-                contactForm.reset();
-                contactModal.classList.remove('active');
-                document.body.style.overflow = '';
-            } else {
-                throw new Error('Erreur lors de l\'envoi du formulaire');
-            }
-        } catch (error) {
-            showNotification('Une erreur s\'est produite. Veuillez réessayer plus tard.');
-            console.error('Error:', error);
-        }
-    });
-    
-    // Close modals when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === reviewModal) {
+        closeReviewModal.addEventListener('click', () => {
             reviewModal.classList.remove('active');
             document.body.style.overflow = '';
-        }
-        
-        if (e.target === contactModal) {
+        });
+
+        reviewModal.addEventListener('click', (e) => {
+            if (e.target === reviewModal) {
+                reviewModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.dataset.rating);
+                reviewRating.value = rating;
+                
+                ratingStars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to a server
+            showNotification('Merci pour votre avis ! Il sera publié après modération.');
+            
+            // Reset form
+            reviewForm.reset();
+            ratingStars.forEach(star => star.classList.remove('active'));
+            reviewRating.value = '0';
+            
+            // Close modal
+            reviewModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Contact Modal
+        const contactModal = document.getElementById('contactModal');
+        const contactBtn = document.getElementById('contactBtn');
+        const closeContactModal = document.getElementById('closeContactModal');
+        const contactForm = document.getElementById('contactForm');
+
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeContactModal.addEventListener('click', () => {
             contactModal.classList.remove('active');
             document.body.style.overflow = '';
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show notification
+            showNotification('Votre message a été envoyé avec succès. Nous vous contacterons rapidement.');
+            
+            // Submit form via FormSubmit
+            this.submit();
+            
+            // Reset form
+            this.reset();
+            
+            // Close modal
+            contactModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Notification
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+
+        function showNotification(message) {
+            notificationText.textContent = message;
+            notification.classList.add('active');
+            
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 5000);
         }
-    });
-    
-    // Initialize on load
-    window.addEventListener('DOMContentLoaded', () => {
-        adjustMobileLayout();
-        initTestimonialSlider();
-        goToTestimonial(0);
-    });
-    
-    // Adjust on resize
-    window.addEventListener('resize', () => {
-        adjustMobileLayout();
-    });
-</script>
+
+        // Animate stats counters
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        function animateStats() {
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-count'));
+                const duration = 2000;
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    stat.textContent = Math.floor(current);
+                    
+                    if (current >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    }
+                }, 16);
+            });
+        }
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsObserver.observe(document.querySelector('.stats'));
+
+        // Language selector changes testimonial language
+        const languageLinks = document.querySelectorAll('.language-dropdown a');
+        languageLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('href').split('-')[1].replace('.html', '');
+                filterTestimonials(lang);
+                
+                // Update language button
+                const languageBtn = document.querySelector('.language-btn span');
+                languageBtn.textContent = link.textContent;
+                
+                // Close dropdown
+                languageSelector.classList.remove('active');
+            });
+        });
+
+        // Initialize with French testimonials
+        filterTestimonials('fr');
+    </script>
 </body>
 </html>
