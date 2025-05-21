@@ -8,7 +8,6 @@
     <!-- Préchargement des ressources critiques -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.css" as="style">
     
     <!-- Favicon et métadonnées avancées -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -20,7 +19,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.css">
     <style>
         :root {
             --primary: #0a1a3a;
@@ -100,79 +98,64 @@
             visibility: hidden;
         }
         
-        .scales-animation {
+        .balance-scale {
             position: relative;
             width: 100px;
             height: 100px;
         }
         
-        .scale-base {
+        .balance-beam {
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 10px;
-            background: var(--secondary);
-            border-radius: 5px;
-        }
-        
-        .scale-pillar {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 60px;
-            background: var(--secondary);
-            border-radius: 5px;
-        }
-        
-        .scale-beam {
-            position: absolute;
-            top: 30px;
+            top: 50%;
             left: 50%;
             width: 80px;
-            height: 8px;
+            height: 6px;
             background: var(--secondary);
-            transform: translateX(-50%) rotate(0deg);
-            transform-origin: center;
-            border-radius: 5px;
-            animation: balance 2s ease-in-out infinite;
+            transform: translate(-50%, -50%);
+            border-radius: 3px;
         }
         
-        .scale-pan {
+        .balance-pivot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: var(--secondary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .balance-pan {
             position: absolute;
             width: 30px;
-            height: 15px;
+            height: 10px;
             background: var(--secondary);
             border-radius: 0 0 15px 15px;
         }
         
-        .scale-pan.left {
-            top: 38px;
+        .balance-pan.left {
+            top: 55%;
             left: 10px;
+            transform-origin: center top;
+            animation: swingLeft 2s ease-in-out infinite;
         }
         
-        .scale-pan.right {
-            top: 38px;
+        .balance-pan.right {
+            top: 55%;
             right: 10px;
+            transform-origin: center top;
+            animation: swingRight 2s ease-in-out infinite;
         }
         
-        .scale-pan::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 10px;
-            background: var(--secondary);
+        @keyframes swingLeft {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
         }
         
-        @keyframes balance {
-            0%, 100% { transform: translateX(-50%) rotate(-10deg); }
-            50% { transform: translateX(-50%) rotate(10deg); }
+        @keyframes swingRight {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
         }
         
         /* Header Premium */
@@ -569,46 +552,40 @@
             align-items: center;
         }
         
-        .about-carousel {
+        .carousel-container {
             position: relative;
-            border-radius: 10px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
             overflow: hidden;
+            border-radius: 10px;
             box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1);
             transform: translateX(-50px);
             opacity: 0;
             transition: all 1s cubic-bezier(0.65, 0, 0.35, 1);
         }
         
-        .about-carousel.in-view {
+        .carousel-container.in-view {
             transform: translateX(0);
             opacity: 1;
         }
         
-        .carousel-track {
+        .carousel {
             display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
             height: 400px;
         }
         
         .carousel-slide {
             min-width: 100%;
-            position: relative;
+            height: 100%;
         }
         
         .carousel-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        
-        .carousel-slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(10, 26, 58, 0.1) 0%, rgba(10, 26, 58, 0.3) 100%);
-            z-index: 1;
         }
         
         .about-text {
@@ -806,38 +783,38 @@
             background: var(--light);
         }
         
-        .team-slider {
+        .team-container {
             position: relative;
             max-width: 1200px;
             margin: 0 auto;
+            overflow: hidden;
         }
         
-        .team-track {
+        .team-slider {
             display: flex;
             gap: 2rem;
+            padding-bottom: 2rem;
             scroll-snap-type: x mandatory;
             overflow-x: auto;
-            scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 2rem;
         }
         
-        .team-track::-webkit-scrollbar {
+        .team-slider::-webkit-scrollbar {
             height: 8px;
         }
         
-        .team-track::-webkit-scrollbar-track {
+        .team-slider::-webkit-scrollbar-track {
             background: rgba(10, 26, 58, 0.1);
             border-radius: 10px;
         }
         
-        .team-track::-webkit-scrollbar-thumb {
+        .team-slider::-webkit-scrollbar-thumb {
             background: var(--secondary);
             border-radius: 10px;
         }
         
         .team-card {
-            min-width: 280px;
+            flex: 0 0 calc(20% - 1.6rem);
             scroll-snap-align: start;
             background: white;
             border-radius: 10px;
@@ -968,9 +945,15 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
         
+        .testimonial-rating {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
         .testimonial-text {
             font-style: italic;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
             font-size: 1.1rem;
             line-height: 1.8;
@@ -998,18 +981,13 @@
         
         .testimonial-author {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            align-items: center;
+            gap: 1rem;
         }
         
-        .author-name {
+        .author-info h4 {
             font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .author-rating {
-            color: var(--secondary);
-            font-size: 1rem;
+            margin-bottom: 0.3rem;
         }
         
         .testimonial-nav {
@@ -1033,177 +1011,97 @@
             transform: scale(1.2);
         }
         
-        .add-review-btn {
-            display: inline-block;
-            margin-top: 3rem;
-            padding: 0.9rem 2rem;
-            background: var(--secondary);
+        .leave-review-btn {
+            display: block;
+            margin: 3rem auto 0;
+            background: transparent;
+            border: 2px solid var(--secondary);
             color: white;
+            padding: 0.8rem 2rem;
             border-radius: 50px;
             font-weight: 600;
-            transition: var(--transition);
             cursor: pointer;
+            transition: var(--transition);
         }
         
-        .add-review-btn:hover {
-            background: white;
-            color: var(--primary);
+        .leave-review-btn:hover {
+            background: var(--secondary);
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
         }
         
-        /* Review Modal */
-        .modal-overlay {
+        /* Modal Styles */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
             opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
+            transition: opacity 0.3s;
         }
         
-        .modal-overlay.active {
+        .modal.active {
+            display: flex;
             opacity: 1;
-            visibility: visible;
         }
         
-        .review-modal {
+        .modal-content {
             background: white;
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
-            padding: 2.5rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
             position: relative;
-            transform: translateY(50px);
-            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            transform: translateY(20px);
+            transition: transform 0.3s;
         }
         
-        .modal-overlay.active .review-modal {
+        .modal.active .modal-content {
             transform: translateY(0);
         }
         
         .close-modal {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
-            transition: var(--transition);
+            transition: color 0.3s;
         }
         
         .close-modal:hover {
             color: var(--primary);
         }
         
-        .review-form h3 {
-            font-size: 1.75rem;
+        .modal h3 {
             margin-bottom: 1.5rem;
             color: var(--primary);
             text-align: center;
         }
         
-        .form-group {
+        .rating-input {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
             margin-bottom: 1.5rem;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--primary);
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
-        }
-        
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        .rating-stars {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .rating-star {
-            font-size: 1.5rem;
-            color: #ddd;
+        .rating-input i {
+            font-size: 1.8rem;
+            color: var(--gray);
             cursor: pointer;
-            transition: var(--transition);
+            transition: color 0.3s;
         }
         
-        .rating-star.active {
-            color: var(--secondary);
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .submit-btn:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
-        }
-        
-        /* Notification */
-        .notification {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .notification.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .notification i {
-            font-size: 1.5rem;
+        .rating-input i.active {
             color: var(--secondary);
         }
         
@@ -1326,38 +1224,20 @@
         
         .contact-btn {
             display: inline-block;
-            padding: 0.9rem 2rem;
             background: var(--secondary);
             color: white;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             font-weight: 600;
             transition: var(--transition);
-            cursor: pointer;
             border: none;
-            font-family: inherit;
-            font-size: 0.95rem;
+            cursor: pointer;
         }
         
         .contact-btn:hover {
             background: var(--primary);
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
-        }
-        
-        /* Contact Modal */
-        .contact-modal {
-            background: white;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            padding: 2.5rem;
-            position: relative;
-            transform: translateY(50px);
-            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-        
-        .modal-overlay.active .contact-modal {
-            transform: translateY(0);
         }
         
         /* Footer Premium */
@@ -1388,18 +1268,23 @@
             z-index: 1;
         }
         
-        .footer-col h3 {
+        .footer-about {
+            text-align: center;
+        }
+        
+        .footer-about h3 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
         }
         
-        .footer-col h3::after {
+        .footer-about h3::after {
             content: '';
             position: absolute;
             bottom: -8px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 50px;
             height: 3px;
             background: var(--secondary);
@@ -1408,6 +1293,9 @@
         .footer-about p {
             margin-bottom: 1.5rem;
             opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .footer-bottom {
@@ -1421,6 +1309,7 @@
         }
         
         .footer-bottom a {
+            margin: 0 0.5rem;
             transition: color 0.3s;
         }
         
@@ -1460,6 +1349,35 @@
             transform: translateY(-5px);
         }
         
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .notification i {
+            color: var(--secondary);
+        }
+        
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .container {
@@ -1468,6 +1386,10 @@
             
             .section {
                 padding: 6rem 0;
+            }
+            
+            .team-card {
+                flex: 0 0 calc(25% - 1.6rem);
             }
         }
         
@@ -1527,10 +1449,14 @@
                 grid-template-columns: 1fr;
             }
             
-            .about-carousel {
+            .carousel-container {
                 order: -1;
                 max-width: 600px;
                 margin: 0 auto;
+            }
+            
+            .team-card {
+                flex: 0 0 calc(33.333% - 1.6rem);
             }
         }
         
@@ -1591,6 +1517,10 @@
             .contact-container {
                 grid-template-columns: 1fr;
             }
+            
+            .team-card {
+                flex: 0 0 calc(50% - 1.6rem);
+            }
         }
         
         @media (max-width: 576px) {
@@ -1631,9 +1561,8 @@
                 display: none;
             }
             
-            .review-modal,
-            .contact-modal {
-                padding: 1.5rem;
+            .team-card {
+                flex: 0 0 100%;
             }
         }
     </style>
@@ -1641,12 +1570,11 @@
 <body>
     <!-- Loader -->
     <div class="loader">
-        <div class="scales-animation">
-            <div class="scale-base"></div>
-            <div class="scale-pillar"></div>
-            <div class="scale-beam"></div>
-            <div class="scale-pan left"></div>
-            <div class="scale-pan right"></div>
+        <div class="balance-scale">
+            <div class="balance-beam"></div>
+            <div class="balance-pivot"></div>
+            <div class="balance-pan left"></div>
+            <div class="balance-pan right"></div>
         </div>
     </div>
 
@@ -1719,19 +1647,19 @@
             </div>
             
             <div class="about-content">
-                <div class="about-carousel">
-                    <div class="carousel-track">
+                <div class="carousel-container">
+                    <div class="carousel">
                         <div class="carousel-slide">
                             <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Notre cabinet" loading="lazy">
                         </div>
                         <div class="carousel-slide">
-                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Salle de réunion" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Salle de conférence" loading="lazy">
                         </div>
                         <div class="carousel-slide">
                             <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Bibliothèque juridique" loading="lazy">
                         </div>
                         <div class="carousel-slide">
-                            <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2088&q=80" alt="Équipe d'avocats" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Équipe d'avocats" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -1840,12 +1768,12 @@
                 
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2086&q=80" alt="Droit successoral" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2086&q=80" alt="Droit des successions" loading="lazy">
                     </div>
                     <div class="service-content">
                         <div class="service-number">04</div>
-                        <h3>Droit Successoral & Patrimonial</h3>
-                        <p>Successions internationales, donations transfrontalières, gestion des héritages complexes, trusts et fondations, planification successorale.</p>
+                        <h3>Successions & Donations</h3>
+                        <p>Planification successorale internationale, donations transfrontalières, gestion des patrimoines complexes, trusts et fondations, contentieux successoraux.</p>
                         <a href="#contact" class="service-link">
                             En savoir plus <i class="fas fa-arrow-right"></i>
                         </a>
@@ -1915,57 +1843,67 @@
                 <p>Une équipe d'experts reconnus pour leur excellence juridique et leur engagement envers vos intérêts.</p>
             </div>
             
-            <div class="team-slider">
-                <div class="team-track">
-                    <a href="avocat-dubois.html" class="team-card">
-                        <div class="team-img">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Dubois" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Maître Élisabeth Dubois</h3>
-                            <p>Avocate Associée - Droit des Affaires</p>
-                        </div>
-                    </a>
+            <div class="team-container">
+                <div class="team-slider">
+                    <div class="team-card">
+                        <a href="avocat-dubois.html">
+                            <div class="team-img">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Dubois" loading="lazy">
+                            </div>
+                            <div class="team-info">
+                                <h3>Maître Élisabeth Dubois</h3>
+                                <p>Avocate Associée - Droit des Affaires</p>
+                            </div>
+                        </a>
+                    </div>
                     
-                    <a href="avocat-laurent.html" class="team-card">
-                        <div class="team-img">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Laurent" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Maître Jean-Philippe Laurent</h3>
-                            <p>Avocat Associé - Droit Pénal</p>
-                        </div>
-                    </a>
+                    <div class="team-card">
+                        <a href="avocat-laurent.html">
+                            <div class="team-img">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Laurent" loading="lazy">
+                            </div>
+                            <div class="team-info">
+                                <h3>Maître Jean-Philippe Laurent</h3>
+                                <p>Avocat Associé - Droit Pénal</p>
+                            </div>
+                        </a>
+                    </div>
                     
-                    <a href="notaire-leroy.html" class="team-card">
-                        <div class="team-img">
-                            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Leroy" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Maître Thomas Leroy</h3>
-                            <p>Notaire Associé - Patrimoine</p>
-                        </div>
-                    </a>
+                    <div class="team-card">
+                        <a href="avocat-leroy.html">
+                            <div class="team-img">
+                                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Maître Leroy" loading="lazy">
+                            </div>
+                            <div class="team-info">
+                                <h3>Maître Thomas Leroy</h3>
+                                <p>Notaire Associé - Patrimoine</p>
+                            </div>
+                        </a>
+                    </div>
                     
-                    <a href="avocat-rousseau.html" class="team-card">
-                        <div class="team-img">
-                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Maître Rousseau" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Maître Sophie Rousseau</h3>
-                            <p>Avocate Associée - Droit International</p>
-                        </div>
-                    </a>
+                    <div class="team-card">
+                        <a href="avocat-rousseau.html">
+                            <div class="team-img">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1061&q=80" alt="Maître Rousseau" loading="lazy">
+                            </div>
+                            <div class="team-info">
+                                <h3>Maître Sophie Rousseau</h3>
+                                <p>Avocate Associée - Droit International</p>
+                            </div>
+                        </a>
+                    </div>
                     
-                    <a href="avocat-martin.html" class="team-card">
-                        <div class="team-img">
-                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1067&q=80" alt="Maître Martin" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Maître Antoine Martin</h3>
-                            <p>Avocat Associé - Droit Fiscal</p>
-                        </div>
-                    </a>
+                    <div class="team-card">
+                        <a href="avocat-martin.html">
+                            <div class="team-img">
+                                <img src="https://images.unsplash.com/photo-1583864697784-a0efc8379f70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=988&q=80" alt="Maître Martin" loading="lazy">
+                            </div>
+                            <div class="team-info">
+                                <h3>Maître Antoine Martin</h3>
+                                <p>Avocat Associé - Fiscalité Internationale</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1982,92 +1920,110 @@
             <div class="testimonial-slider">
                 <div class="testimonial-track">
                     <div class="testimonial-card" data-lang="fr">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Maître Dubois a géré notre acquisition avec une maîtrise exceptionnelle. Une expertise rare et précieuse.</p>
+                            <p>Maître Dubois a géré notre acquisition avec une maîtrise exceptionnelle. Résultat parfait !</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">Pierre Lambert</div>
-                            <div class="author-rating">★★★★★</div>
+                            <div class="author-info">
+                                <h4>Pierre Lambert</h4>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="fr">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Approche stratégique brillante dans un contentieux complexe. Résultats au-delà de nos attentes.</p>
+                            <p>Approche stratégique remarquable. Un cabinet qui fait vraiment la différence.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">Élodie Marchand</div>
-                            <div class="author-rating">★★★★★</div>
+                            <div class="author-info">
+                                <h4>Élodie Marchand</h4>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="fr">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Conseils patrimoniaux d'une grande finesse. Notre famille est sécurisée pour les générations futures.</p>
+                            <p>Expertise internationale impressionnante. Recommandé sans hésitation.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">Sophie Dumont</div>
-                            <div class="author-rating">★★★★☆</div>
+                            <div class="author-info">
+                                <h4>François Delacroix</h4>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="en">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Exceptional cross-border expertise. LexPrime delivered results when others failed.</p>
+                            <p>Exceptional service and deep legal expertise. Truly outstanding!</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">James Wilson</div>
-                            <div class="author-rating">★★★★★</div>
+                            <div class="author-info">
+                                <h4>John Smith</h4>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="en">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Strategic legal advice at its finest. They think several moves ahead like chess masters.</p>
+                            <p>Strategic thinking and flawless execution. The best legal team.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">Sarah Johnson</div>
-                            <div class="author-rating">★★★★★</div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="testimonial-card" data-lang="en">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
                         <div class="testimonial-text">
-                            <p>Complex inheritance handled with sensitivity and precision. Highly recommended.</p>
+                            <p>Professional and efficient. Solved our complex international case.</p>
                         </div>
                         <div class="testimonial-author">
-                            <div class="author-name">Robert Chen</div>
-                            <div class="author-rating">★★★★☆</div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card" data-lang="es">
-                        <div class="testimonial-text">
-                            <p>Asesoramiento jurídico impecable en una fusión transfronteriza. Excelentes resultados.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-name">Carlos Mendoza</div>
-                            <div class="author-rating">★★★★★</div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card" data-lang="es">
-                        <div class="testimonial-text">
-                            <p>Estrategia legal brillante para proteger nuestros activos internacionales. Muy profesional.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-name">Ana Rodríguez</div>
-                            <div class="author-rating">★★★★★</div>
-                        </div>
-                    </div>
-                    
-                    <div class="testimonial-card" data-lang="es">
-                        <div class="testimonial-text">
-                            <p>Resolución eficiente de un conflicto sucesorio complejo. Gran conocimiento del derecho internacional.</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-name">Diego Fernández</div>
-                            <div class="author-rating">★★★★☆</div>
+                            <div class="author-info">
+                                <h4>Michael Brown</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2076,52 +2032,15 @@
                     <div class="testimonial-dot active"></div>
                     <div class="testimonial-dot"></div>
                     <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
                 </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="add-review-btn" id="addReviewBtn">
-                    <i class="fas fa-pen"></i> Laissez un avis
-                </button>
+                
+                <button class="leave-review-btn" id="leaveReviewBtn">Laissez un avis</button>
             </div>
         </div>
     </section>
-
-    <!-- Review Modal -->
-    <div class="modal-overlay" id="reviewModal">
-        <div class="review-modal">
-            <span class="close-modal" id="closeReviewModal">&times;</span>
-            <form id="reviewForm" class="review-form">
-                <h3>Donnez votre avis</h3>
-                
-                <div class="form-group">
-                    <label for="reviewName">Nom & Prénom</label>
-                    <input type="text" id="reviewName" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Note</label>
-                    <div class="rating-stars">
-                        <i class="fas fa-star rating-star" data-rating="1"></i>
-                        <i class="fas fa-star rating-star" data-rating="2"></i>
-                        <i class="fas fa-star rating-star" data-rating="3"></i>
-                        <i class="fas fa-star rating-star" data-rating="4"></i>
-                        <i class="fas fa-star rating-star" data-rating="5"></i>
-                    </div>
-                    <input type="hidden" id="reviewRating" value="0" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="reviewText">Votre avis</label>
-                    <textarea id="reviewText" class="form-control" required></textarea>
-                </div>
-                
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Envoyer l'avis
-                </button>
-            </form>
-        </div>
-    </div>
 
     <!-- Contact Section -->
     <section class="section contact" id="contact">
@@ -2158,23 +2077,78 @@
                         </div>
                     </div>
                     
-                    <button class="contact-btn" id="contactBtn">
-                        <i class="fas fa-envelope"></i> Contactez-nous
-                    </button>
+                    <button class="contact-btn" id="contactBtn">Contactez Nous</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Modal -->
-    <div class="modal-overlay" id="contactModal">
-        <div class="contact-modal">
-            <span class="close-modal" id="closeContactModal">&times;</span>
-            <form id="contactForm" class="review-form" action="https://formsubmit.co/contact@lexprime.com" method="POST">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="#contact">
+    <!-- Footer -->
+    <footer>
+        <div class="footer-wave"></div>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <h3>LexPrime</h3>
+                    <p>Cabinet d'avocats et notaires d'excellence, alliant tradition juridique et innovation pour offrir des solutions sur mesure à nos clients en France et à l'international.</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 LexPrime. Tous droits réservés. | <a href="#">Protection des données</a> | <a href="#">Encadrement et régulation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Laissez votre avis</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="reviewName">Nom & Prénom</label>
+                    <input type="text" id="reviewName" class="form-control" required>
+                </div>
                 
-                <h3>Contactez notre équipe</h3>
+                <div class="form-group">
+                    <label>Note</label>
+                    <div class="rating-input">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" id="reviewRating" value="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewText">Votre avis</label>
+                    <textarea id="reviewText" class="form-control" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Envoyer l'avis
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Contactez-nous</h3>
+            <form id="contactForm" action="https://formsubmit.co/contact@lexprime.com" method="POST">
+                <input type="hidden" name="_subject" value="Nouveau message depuis le site LexPrime">
+                <input type="hidden" name="_next" value="#">
+                <input type="hidden" name="_captcha" value="false">
                 
                 <div class="form-group">
                     <label for="contactName">Nom Complet</label>
@@ -2193,7 +2167,7 @@
                         <option value="business">Droit des Affaires</option>
                         <option value="real-estate">Droit Immobilier</option>
                         <option value="family">Droit de la Famille</option>
-                        <option value="inheritance">Droit Successoral</option>
+                        <option value="successions">Successions & Donations</option>
                         <option value="labor">Droit du Travail</option>
                         <option value="notary">Notariat</option>
                         <option value="other">Autre</option>
@@ -2206,7 +2180,7 @@
                 </div>
                 
                 <button type="submit" class="submit-btn">
-                    <i class="fas fa-paper-plane"></i> Envoyer le message
+                    <i class="fas fa-paper-plane"></i> Envoyer le Message
                 </button>
             </form>
         </div>
@@ -2215,32 +2189,9 @@
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
-        <span id="notificationText">Votre message a été envoyé avec succès</span>
+        <span id="notificationText">Message envoyé avec succès</span>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-wave"></div>
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col footer-about">
-                    <h3>LexPrime</h3>
-                    <p>Cabinet d'avocats et notaires d'excellence, alliant tradition juridique et innovation pour offrir des solutions sur mesure à nos clients en France et à l'international.</p>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2023 LexPrime. Tous droits réservés. | <a href="#">Protection des données</a> | <a href="#">Encadrement et régulation</a></p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/glider-js/1.7.8/glider.min.js"></script>
     <script>
         // Loader
         window.addEventListener('load', function() {
@@ -2341,211 +2292,85 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.about-carousel, .about-text, .service-card, .team-card, .contact-info').forEach(el => {
+        document.querySelectorAll('.carousel-container, .about-text, .service-card, .team-card, .contact-info').forEach(el => {
             observer.observe(el);
         });
 
-        // About Carousel
-        let currentSlide = 0;
-        const aboutCarousel = document.querySelector('.carousel-track');
-        const slides = document.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            aboutCarousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-        }
-
-        setInterval(nextSlide, 3000);
-
-        // Team Slider
-        new Glider(document.querySelector('.team-track'), {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            draggable: true,
-            arrows: {
-                prev: '.glider-prev',
-                next: '.glider-next'
-            },
-            responsive: [
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                },
-                {
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4
-                    }
-                }
-            ]
-        });
-
         // Testimonial Slider
-        const testimonialTrack = document.querySelector('.testimonial-track');
-        const testimonialDots = document.querySelectorAll('.testimonial-dot');
-        let testimonialIndex = 0;
-        const testimonialsPerSlide = 3;
+        const track = document.querySelector('.testimonial-track');
+        const dots = document.querySelectorAll('.testimonial-dot');
+        let currentIndex = 0;
+        let autoSlideInterval;
 
         function goToTestimonial(index) {
-            testimonialIndex = index;
+            currentIndex = index;
             const cardWidth = document.querySelector('.testimonial-card').offsetWidth;
-            const gap = parseInt(window.getComputedStyle(testimonialTrack).gap);
-            const scrollAmount = (cardWidth + gap) * index * testimonialsPerSlide;
+            const gap = parseInt(window.getComputedStyle(track).gap);
+            const scrollAmount = (cardWidth + gap) * index;
             
-            testimonialTrack.scrollTo({
+            track.scrollTo({
                 left: scrollAmount,
                 behavior: 'smooth'
             });
             
             // Update dots
-            testimonialDots.forEach((dot, i) => {
+            dots.forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
             });
         }
 
-        testimonialDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => goToTestimonial(index));
-        });
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % (track.children.length - 3);
+                goToTestimonial(currentIndex);
+            }, 3000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
 
         // Filter testimonials by language
         function filterTestimonials(lang) {
             const testimonials = document.querySelectorAll('.testimonial-card');
-            testimonials.forEach(t => {
-                t.style.display = t.dataset.lang === lang ? 'block' : 'none';
+            testimonials.forEach(testimonial => {
+                testimonial.style.display = testimonial.getAttribute('data-lang') === lang ? 'block' : 'none';
             });
-            goToTestimonial(0);
+            
+            // Reset slider to first testimonial in the selected language
+            const firstVisible = document.querySelector(`.testimonial-card[data-lang="${lang}"]`);
+            if (firstVisible) {
+                const index = Array.from(track.children).indexOf(firstVisible);
+                goToTestimonial(index);
+            }
         }
 
-        // Auto-advance testimonials
-        setInterval(() => {
-            testimonialIndex = (testimonialIndex + 1) % testimonialDots.length;
-            goToTestimonial(testimonialIndex);
-        }, 5000);
-
-        // Review Modal
-        const reviewModal = document.getElementById('reviewModal');
-        const addReviewBtn = document.getElementById('addReviewBtn');
-        const closeReviewModal = document.getElementById('closeReviewModal');
-        const reviewForm = document.getElementById('reviewForm');
-        const ratingStars = document.querySelectorAll('.rating-star');
-        const reviewRating = document.getElementById('reviewRating');
-
-        addReviewBtn.addEventListener('click', () => {
-            reviewModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        // Initialize testimonials for French by default
+        document.addEventListener('DOMContentLoaded', () => {
+            filterTestimonials('fr');
         });
 
-        closeReviewModal.addEventListener('click', () => {
-            reviewModal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        reviewModal.addEventListener('click', (e) => {
-            if (e.target === reviewModal) {
-                reviewModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        ratingStars.forEach(star => {
-            star.addEventListener('click', () => {
-                const rating = parseInt(star.dataset.rating);
-                reviewRating.value = rating;
-                
-                ratingStars.forEach((s, i) => {
-                    if (i < rating) {
-                        s.classList.add('active');
-                    } else {
-                        s.classList.remove('active');
-                    }
-                });
+        // Update testimonials when language changes
+        document.querySelectorAll('.language-dropdown a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('href').split('-')[1].split('.')[0];
+                filterTestimonials(lang === 'fr' ? 'fr' : 'en');
             });
         });
 
-        reviewForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Here you would typically send the form data to a server
-            showNotification('Merci pour votre avis ! Il sera publié après modération.');
-            
-            // Reset form
-            reviewForm.reset();
-            ratingStars.forEach(star => star.classList.remove('active'));
-            reviewRating.value = '0';
-            
-            // Close modal
-            reviewModal.classList.remove('active');
-            document.body.style.overflow = '';
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToTestimonial(index);
+                stopAutoSlide();
+                startAutoSlide();
+            });
         });
 
-        // Contact Modal
-        const contactModal = document.getElementById('contactModal');
-        const contactBtn = document.getElementById('contactBtn');
-        const closeContactModal = document.getElementById('closeContactModal');
-        const contactForm = document.getElementById('contactForm');
+        track.addEventListener('mouseenter', stopAutoSlide);
+        track.addEventListener('mouseleave', startAutoSlide);
 
-        contactBtn.addEventListener('click', () => {
-            contactModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        closeContactModal.addEventListener('click', () => {
-            contactModal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) {
-                contactModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Show notification
-            showNotification('Votre message a été envoyé avec succès. Nous vous contacterons rapidement.');
-            
-            // Submit form via FormSubmit
-            this.submit();
-            
-            // Reset form
-            this.reset();
-            
-            // Close modal
-            contactModal.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Notification
-        const notification = document.getElementById('notification');
-        const notificationText = document.getElementById('notificationText');
-
-        function showNotification(message) {
-            notificationText.textContent = message;
-            notification.classList.add('active');
-            
-            setTimeout(() => {
-                notification.classList.remove('active');
-            }, 5000);
-        }
+        startAutoSlide();
 
         // Animate stats counters
         const statNumbers = document.querySelectorAll('.stat-number');
@@ -2581,25 +2406,141 @@
 
         statsObserver.observe(document.querySelector('.stats'));
 
-        // Language selector changes testimonial language
-        const languageLinks = document.querySelectorAll('.language-dropdown a');
-        languageLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lang = link.getAttribute('href').split('-')[1].replace('.html', '');
-                filterTestimonials(lang);
+        // Image Carousel
+        const carousel = document.querySelector('.carousel');
+        let currentSlide = 0;
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % carousel.children.length;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        setInterval(nextSlide, 3000);
+
+        // Review Modal
+        const reviewModal = document.getElementById('reviewModal');
+        const leaveReviewBtn = document.getElementById('leaveReviewBtn');
+        const closeReviewModal = reviewModal.querySelector('.close-modal');
+        const reviewForm = document.getElementById('reviewForm');
+        const ratingStars = document.querySelectorAll('.rating-input i');
+        const ratingInput = document.getElementById('reviewRating');
+        
+        leaveReviewBtn.addEventListener('click', () => {
+            reviewModal.classList.add('active');
+        });
+        
+        closeReviewModal.addEventListener('click', () => {
+            reviewModal.classList.remove('active');
+        });
+        
+        ratingStars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                ratingInput.value = rating;
                 
-                // Update language button
-                const languageBtn = document.querySelector('.language-btn span');
-                languageBtn.textContent = link.textContent;
-                
-                // Close dropdown
-                languageSelector.classList.remove('active');
+                ratingStars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas', 'active');
+                    } else {
+                        s.classList.remove('fas', 'active');
+                        s.classList.add('far');
+                    }
+                });
+            });
+        });
+        
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (ratingInput.value === '0') {
+                alert('Veuillez sélectionner une note');
+                return;
+            }
+            
+            // Here you would typically send the form data to a server
+            showNotification('Merci pour votre avis !');
+            reviewForm.reset();
+            ratingStars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+            });
+            ratingInput.value = '0';
+            reviewModal.classList.remove('active');
+        });
+
+        // Contact Modal
+        const contactModal = document.getElementById('contactModal');
+        const contactBtn = document.getElementById('contactBtn');
+        const closeContactModal = contactModal.querySelector('.close-modal');
+        
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+        });
+        
+        closeContactModal.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const action = this.getAttribute('action');
+            
+            fetch(action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    showNotification('Votre message a été envoyé avec succès');
+                    contactForm.reset();
+                    contactModal.classList.remove('active');
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                showNotification('Une erreur s\'est produite. Veuillez réessayer.', true);
+                console.error('Error:', error);
             });
         });
 
-        // Initialize with French testimonials
-        filterTestimonials('fr');
+        // Notification
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        
+        function showNotification(message, isError = false) {
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            if (isError) {
+                notification.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                notification.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === reviewModal) {
+                reviewModal.classList.remove('active');
+            }
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
